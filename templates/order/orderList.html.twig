@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+        $("#orderList").DataTable({
+            "language": {
+                "sProcessing":   "Processant...",
+                "sLengthMenu":   "Mostra _MENU_ registres",
+                "sZeroRecords":  "No s'han trobat registres.",
+                "sInfo":         "Mostrant de _START_ a _END_ de _TOTAL_ registres",
+                "sInfoEmpty":    "Mostrant de 0 a 0 de 0 registres",
+                "sInfoFiltered": "(filtrat de _MAX_ total registres)",
+                "sInfoPostFix":  "",
+                "sSearch":       "Filtrar:",
+                "sUrl":          "",
+                "oPaginate": {
+                    "sFirst":    "Primer",
+                    "sPrevious": "Anterior",
+                    "sNext":     "Següent",
+                    "sLast":     "Últim"
+                }
+            }
+        });
+    </script>
+{% endblock %}
+{% block title %}
+    Admin Panel
+{% endblock %}
+{% block body %}
+    <section class="content-header">
+        <!-- Content Header (Page header) -->
+        <h1>
+            Ordres
+            <small>llista Ordres</small>
+{#            <a href="{{ path('orderAdd') }}" class="btn btn-primary pull-right" role="button">afeguir ordre</a>#}
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-body">
+                <table id="orderList" class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Ordre</th>
+                        <th>Estat</th>
+                        <th>Obertura</th>
+{#                        <th><i class="glyphicon glyphicon-wrench"></i></th>#}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('orderView', {'codiOrdre' : order.codiOrdre}) }}">{{ order.codiOrdre }}</a>
+                            </td>
+
+                            <td><a href="{{ path('orderView', {'codiOrdre' : order.codiOrdre}) }}">
+                                    {{ order.estat }}</a>
+                            </td>
+                            <td><a href="{{ path('orderView', {'codiOrdre' : order.codiOrdre}) }}">
+                                    {{ order.obertura|date("Y/m/d") }}</a>
+                            </td>
+                            {#<td>
+                                <a href="{{ path('orderEdit', { 'codiOrdre': order.codiOrdre}) }}"><span
+                                            class="glyphicon glyphicon-pencil"></span></a><br>
+                                <a href="{{ path('app_order_orderdelete', { 'codiOrdre': order.codiOrdre}) }}" onclick="
+                                        return confirm('Estas segur que vols eliminar aquest registre?')"><span
+                                            class="glyphicon glyphicon-trash"
+                                            id="eliminar"></span></a>
+                            </td>#}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.box -->
+    </section>
+{% endblock %}
+

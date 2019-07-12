@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>{% block title %}Side Butlleti Web{% endblock %}</title>
+        {% block stylesheets %}
+            <!-- Bootstrap 3.3.7 -->
+            <link rel="stylesheet" href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css')}}">
+            <!-- Ionicons -->
+            <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css')}}">
+            <!-- Theme style -->
+            <link rel="stylesheet" href="{{ asset('dist/css/AdminLTE.min.css')}}">
+            <!-- AdminLTE Skins. Choose a skin from the css/skins
+                folder instead of downloading all of them to reduce the load. -->
+            <link rel="stylesheet" href="{{ asset('dist/css/skins/_all-skins.min.css')}}">
+            <!-- Google Font -->
+            <link rel="stylesheet"
+                    href="{{ asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic')}}">
+            <!-- Custom Css -->
+            <link rel="stylesheet" href="{{ asset('butlleti.css') }}">
+        {% endblock %}
+    </head>
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+        {% include 'topNavbar.html.twig' %}
+        {% include 'sidebar.html.twig' %}
+
+            <div class="content-wrapper">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% block body %}
+                {% endblock %}
+            </div>
+        {% include 'footer.html.twig' %}
+        {% block javascripts %}
+            <!-- jQuery 3 -->
+            <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+            <!-- Bootstrap 3.3.7 -->
+            <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+            <!-- FastClick -->
+            <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
+            <!-- AdminLTE App -->
+            <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+            <!-- Sparkline -->
+            <script src="{{ asset('bower_components/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
+
+            <!-- SlimScroll -->
+            <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+        {% endblock %}
+        </div>
+    </body>
+</html>

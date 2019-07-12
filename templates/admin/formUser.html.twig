@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#user_form_roles_2').click(function () {
+            if ($('#user_form_roles_2').is(':checked')){
+                $('#user_form_roles_0').prop('checked', false);
+                $('#user_form_roles_1').prop('checked', false);
+            } else {
+                $('#user_form_roles_0').prop('checked', true);
+            }
+        });
+        $('#user_form_roles_0').click(function () {
+            if ($('#user_form_roles_0').is(':checked')){
+                $('#user_form_roles_2').prop('checked', false);
+            }
+        });
+        $('#user_form_roles_1').click(function () {
+            if ($('#user_form_roles_1').is(':checked')){
+                $('#user_form_roles_2').prop('checked', false);
+            }
+        });
+    </script>
+{% endblock %}
+{% block body %}
+    <section class="content-header">
+        <h1>{{ actionText }}</h1>
+    </section>
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Omple el formulari</h3>
+                <a href="{{ path('userList') }}" class="btn btn-default pull-right" role="button">Torna enrere</a>
+            </div>
+            <div class="box-body">
+                {{ form_start(userForm, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(userForm) }}
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">{{ actionText }}</button>
+                {{ form_end(userForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

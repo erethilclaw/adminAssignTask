@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Detall Ordre
+{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <!-- Content Header (Page header) -->
+        <h1>
+            Detall
+            <small>ordre</small>
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">codi: {{ order.codiOrdre }}</h3>
+                <a href="{{ path('orderList') }}" class="btn btn-default pull-right" role="button">Torna enrere</a>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <strong><i class="fa fa-user margin-r-5"></i> Estat</strong>
+                <p class="text-muted">
+                     {{ order.estat }}
+                </p>
+                <hr>
+                <strong><i class="fa fa-key margin-r-5"></i> Obertura</strong>
+                    <p class="text-muted">{{ order.obertura|date("d/m/Y") }}</p>
+                <hr>
+                <strong><i class="fa fa-key margin-r-5"></i> Observacions</strong>
+                <p class="text-muted">{{ order.descripcio }}</p>
+                <hr>
+                <strong><i class="fa fa-key margin-r-5"></i> Treballadors</strong>
+                {% for treballador in order.users %}
+                <p class="text-muted">{{ treballador.pickCode }} {{ treballador.name }}</p>
+                {% endfor %}
+                <hr>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

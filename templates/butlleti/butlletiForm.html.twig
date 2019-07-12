@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!-- bootstrap datepicker -->
+    <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $('.datePicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+        })
+    </script>
+    <script>
+        var $collectionHolder;
+
+        // setup an "add a tag" link
+        var $addliniesButlletiButton = $('<button type="button" class="add_liniesButlleti_link btn btn-primary">Afegir linia</button>');
+        var $newLinkLi = $('<li></li>').append($addliniesButlletiButton);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of liniesButlleti
+            $collectionHolder = $('ul.liniesButlleti');
+
+            // add a delete link to all of the existing tag form li elements
+            $collectionHolder.find('li').each(function() {
+                addliniesButlletiFormDeleteLink($(this));
+            });
+
+            // add the "add a tag" anchor and li to the tags ul
+            $collectionHolder.append($newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $addliniesButlletiButton.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+                // add a new tag form (see next code block)
+                addliniesButlletiForm($collectionHolder, $newLinkLi);
+            });
+        });
+        function addliniesButlletiForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+            // add a delete link to the new form
+            addliniesButlletiFormDeleteLink($newFormLi);
+        }
+        function addliniesButlletiFormDeleteLink($tagFormLi) {
+            var $removeFormButton = $('<button type="button" class="btn btn-danger">Elimina linia</button><hr>');
+            $tagFormLi.append($removeFormButton);
+
+            $removeFormButton.on('click', function(e) {
+                // remove the li for the tag form
+                $tagFormLi.remove();
+            });
+        }
+    </script>
+{% endblock %}
+{% block body %}
+    <section class="content-header">
+        <h1>{{ actionText }}</h1>
+    </section>
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Omple el formulari</h3>
+                <a href="{{ path('butlletiList') }}" class="btn btn-default pull-right" role="button">Torna enrere</a>
+            </div>
+            <div class="box-body">
+                {{ form_start(butlletiForm) }}
+                <div class="form-group">
+                    <label>Data:</label>{{ form_errors(butlletiForm.dataButlleti) }}
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        {{ form_widget(butlletiForm.dataButlleti ) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>linia ordre</label>
+                    {{ form_label(butlletiForm.liniesButlleti) }}
+                    <ul class="liniesButlleti"
+                        data-prototype="{{ form_widget(butlletiForm.liniesButlleti.vars.prototype)|e('html_attr') }}"
+                        data-widget-tags="{{ '<li></li>'|e }}"
+                        data-widget-counter="{{ butlletiForm.children|length }}">
+                        {% for liniaButlleti in butlletiForm.liniesButlleti %}
+                            <li>
+                                {{ form_errors(liniaButlleti) }}
+                                {{ form_widget(liniaButlleti) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-success">{{ actionText }}</button>
+                {{ form_end(butlletiForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
